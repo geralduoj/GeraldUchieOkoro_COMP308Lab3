@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Course = mongoose.model('Course');
 const Student = require('mongoose').model('Student');
+const { ObjectId } = require('mongodb');
 
 //
 function getErrorMessage(err) {
@@ -49,6 +50,30 @@ exports.create = function (req, res) {
             }
         });
     
+    });
+};
+//
+exports.studentsByCourses = function (req, res) {
+    
+    let courseCodes = req.body.courseCode;
+    //article.creator = req.body.username;
+    console.log(courseCodes)
+    //
+    //
+    console.log('wwwww')
+    Course.find({courseCode: courseCodes}, (err, courses) => {
+
+        if (err) { return getErrorMessage(err); }
+        //
+        //console.log('fffff')
+        //for (x in courses) {
+        //    console.log(courses[x])
+        //}
+        let cc = courses
+        
+        res.status(200).json(courses[1].student);
+
+	
     });
 };
 //
@@ -122,4 +147,22 @@ exports.hasAuthorization = function (req, res, next) {
         });
     }
     next();
+};
+//
+exports.studentCourses = function (req, res) {
+    const student = req.student;
+    console.log('here'+req.id)
+    var studentID = req.id
+    Course.find({student:ObjectId(studentID)}, (err, courses) => {
+        if (err) {
+            // Call the next middleware with an error message
+            return res.status(400).send({
+                message: getErrorMessage(err)
+            });
+        } else {
+            //console.log(comments);
+            // Use the 'response' object to send a JSON response
+            res.status(200).json(courses);
+        }
+	});
 };

@@ -112,8 +112,8 @@ exports.delete = function(req, res, next) {
 exports.authenticate = function(req, res, next) {
 	// Get credentials from request
 	console.log(req.body)
-	const username = req.body.username;
-	const password  = req.body.password;
+	const username = req.body.auth.username;
+	const password  = req.body.auth.password;
 	console.log(password)
 	console.log(username)
 	//find the user with given username using static method findOne

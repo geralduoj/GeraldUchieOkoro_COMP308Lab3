@@ -6,6 +6,15 @@ module.exports = function (app) {
             .get(courses.list)
             .post(students.requiresLogin, courses.create);
         //
+        app.route('/api/your-courses')
+            .get(students.requiresLogin, courses.studentCourses);
+        //
+        app.route('/api/students-by-courses')
+            .post(students.requiresLogin, courses.studentsByCourses);
+        //
+        app.route('/api/stud')
+            .post(courses.studentsByCourses);
+        //
         app.route('/api/courses/:courseId')
             .get(courses.read)
             .put(students.requiresLogin, courses.hasAuthorization, courses.
