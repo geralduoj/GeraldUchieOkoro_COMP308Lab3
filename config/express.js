@@ -58,8 +58,6 @@ module.exports = function () {
     //bootstrap the app using the controller and routing modules
     // Load the routing files
     require('../app/routes/index.server.routes.js')(app);
-    require('../app/routes/users.server.routes.js')(app);
-    require('../app/routes/articles.server.routes.js')(app);
     require('../app/routes/students.server.routes.js')(app);
     require('../app/routes/courses.server.routes.js')(app);
     //The express.static() middleware takes one argument 

@@ -240,6 +240,7 @@ exports.requiresLogin = function (req, res, next) {
 	  payload = jwt.verify(token, jwtKey)
 	  console.log('in requiresLogin - payload:',payload)
 	  req.id = payload.id;
+	  req.studentUsername = payload.username;
 	  //req.usernameFromPayload = payload.username;
 	} catch (e) {
 	  if (e instanceof jwt.JsonWebTokenError) {

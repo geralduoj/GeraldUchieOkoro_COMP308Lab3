@@ -22,10 +22,11 @@ exports.create = function (req, res) {
     course.section = req.body.section;
     course.semester = req.body.semester;
     //article.creator = req.body.username;
+    var studentUsername = req.studentUsername
     console.log(req.body)
     //
     //
-    Student.findOne({username: req.body.username}, (err, student) => {
+    Student.findOne({username: studentUsername}, (err, student) => {
 
         if (err) { return getErrorMessage(err); }
         //
@@ -53,30 +54,6 @@ exports.create = function (req, res) {
     });
 };
 //
-exports.studentsByCourses = function (req, res) {
-    
-    let courseCodes = req.body.courseCode;
-    //article.creator = req.body.username;
-    console.log(courseCodes)
-    //
-    //
-    console.log('wwwww')
-    Course.find({courseCode: courseCodes}, (err, courses) => {
-
-        if (err) { return getErrorMessage(err); }
-        //
-        //console.log('fffff')
-        //for (x in courses) {
-        //    console.log(courses[x])
-        //}
-        let cc = courses
-        
-        res.status(200).json(courses[1].student);
-
-	
-    });
-};
-//
 exports.list = function (req, res) {
     Course.find().sort('-courseName').populate('student', 'firstName lastName fullName').exec((err, courses) => {
 if (err) {
@@ -87,6 +64,27 @@ if (err) {
         res.status(200).json(courses);
     }
 });
+};
+//
+exports.studentsByCourses = async (req, res) => {
+
+    let courseCode = req.body.auth.courseCode
+    //console.log(courseCode);
+    let student = await Course.find({courseCode: courseCode}).sort('-courseName').populate('student', 'firstName lastName fullName');
+    try{
+        var studArray = []
+        //student.forEach(element => {
+        //    studArray.push(element)
+        //});
+        for(let i = 0; i < student.length; i++){
+            studArray.push(student[i].student)
+        }
+        res.status(200).json(studArray)
+        
+    }
+    catch(e){
+        
+    }
 };
 //
 exports.courseByID = function (req, res, next, id) {

@@ -12,9 +12,6 @@ module.exports = function (app) {
         app.route('/api/students-by-courses')
             .post(students.requiresLogin, courses.studentsByCourses);
         //
-        app.route('/api/stud')
-            .post(courses.studentsByCourses);
-        //
         app.route('/api/courses/:courseId')
             .get(courses.read)
             .put(students.requiresLogin, courses.hasAuthorization, courses.
